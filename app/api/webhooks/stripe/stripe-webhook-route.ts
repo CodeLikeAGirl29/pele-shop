@@ -27,7 +27,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 // Tell Next.js not to parse the body — we need the raw bytes
 // to verify Stripe's signature. If Next.js parses it first,
 // the signature check fails.
-export const dynamic = "force-dynamic";
+export const config = {
+  api: { bodyParser: false },
+};
 
 export async function POST(request: Request) {
   const body = await request.text();
