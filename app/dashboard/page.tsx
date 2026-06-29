@@ -24,7 +24,7 @@ export default async function DashboardPage() {
 
   // Run all queries in parallel with Promise.all so we don't
   // wait for each one sequentially
-  const [{ data: orders }, { data: products }, { data: recentOrders }] =
+  const [{ data: ordersRaw }, { data: products }, { data: recentOrders }] =
     await Promise.all([
       // All paid/shipped/delivered orders for KPI calculation
       supabase
@@ -58,12 +58,14 @@ export default async function DashboardPage() {
     ]);
 
   // ---- KPI calculations ----
-  const totalRevenue = orders?.reduce((sum, o) => sum + o.total, 0) ?? 0;
+  const totalRevenue =
+    (orders as any[])?.reduce((sum, o) => sum + o.total, 0) ?? 0;
   const orderCount = orders?.length ?? 0;
   const avgOrderValue = orderCount > 0 ? totalRevenue / orderCount : 0;
 
   // Low stock = products with fewer than 10 units
-  const lowStockProducts = products?.filter((p) => p.stock < 10) ?? [];
+  const lowStockProducts =
+    (products as any[])?.filter((p: any) => p.stock < 10) ?? [];
 
   // ---- Revenue chart data ----
   // Build a map of date → revenue for the last 30 days
