@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     };
     const { data: order, error: orderError } = await supabase
       .from("orders")
-      .insert(orderInsert)
+      .insert(orderInsert as any)
       .select()
       .single();
 
