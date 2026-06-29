@@ -1,0 +1,224 @@
+/* app/about/page.module.css */
+
+/* ---- hero ---- */
+.hero {
+  padding: 5rem var(--page-px) 4rem;
+  max-width: 680px;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+}
+
+.headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+
+.headline em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.heroSub {
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+  line-height: 1.75;
+  max-width: 480px;
+}
+
+/* ---- warm image band ---- */
+.band {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  background: #E8E0D8;
+  margin: 0;
+}
+
+.bandInner {
+  width: 100%;
+  height: 100%;
+  background:
+    /* subtle texture pattern using CSS only */
+    repeating-linear-gradient(45deg,
+      transparent,
+      transparent 40px,
+      rgba(196, 97, 58, 0.04) 40px,
+      rgba(196, 97, 58, 0.04) 80px);
+}
+
+/* ---- shared section ---- */
+.section {
+  padding: 4.5rem var(--page-px);
+  border-top: 1px solid var(--border);
+}
+
+.sectionLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 2.5rem;
+}
+
+/* ---- values ---- */
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.valueCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.valueTitle {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.valueBody {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  line-height: 1.75;
+}
+
+/* ---- makers ---- */
+.makersGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.makerCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.375rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* Initials circle */
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.625rem;
+  letter-spacing: 0.04em;
+}
+
+.makerName {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.makerCraft {
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.375rem;
+}
+
+.makerBio {
+  font-size: 0.825rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+
+/* ---- cta ---- */
+.cta {
+  padding: 5rem var(--page-px);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  background: var(--accent-light);
+}
+
+.ctaTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.875rem;
+  letter-spacing: -0.02em;
+}
+
+.ctaSub {
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+  max-width: 420px;
+  margin: 0 auto 2rem;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.ctaBtn:hover {
+  background: #a84f2e;
+  transform: translateY(-1px);
+}
+
+/* ---- responsive ---- */
+@media (max-width: 900px) {
+  .makersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 3rem 1.25rem 2.5rem;
+  }
+
+  .section {
+    padding: 3rem 1.25rem;
+  }
+
+  .valuesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .makersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta {
+    padding: 3.5rem 1.25rem;
+  }
+}

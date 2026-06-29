@@ -1,0 +1,346 @@
+/* components/store/CartDrawer.module.css */
+
+/* ---- backdrop ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0);
+  z-index: 100;
+  /* Hidden by default — pointer events off so it doesn't block clicks */
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.backdropVisible {
+  background: rgba(28, 25, 23, 0.45);
+  pointer-events: all;
+}
+
+/* ---- drawer panel ---- */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  max-width: 100vw;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  /* Starts off-screen to the right */
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: -8px 0 32px rgba(28, 25, 23, 0.08);
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+/* ---- header ---- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.itemCount {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-2);
+  padding: 0.375rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+}
+
+.closeBtn:hover {
+  color: var(--ink);
+  background: var(--accent-light);
+}
+
+/* ---- empty state ---- */
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.emptyIcon {
+  color: var(--ink-3);
+  margin-bottom: 0.5rem;
+}
+
+.emptyTitle {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--ink);
+}
+
+.emptySub {
+  font-size: 0.875rem;
+  color: var(--ink-3);
+  margin-bottom: 0.5rem;
+}
+
+.continueBtn {
+  margin-top: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.continueBtn:hover {
+  background: #a84f2e;
+}
+
+/* ---- item list ---- */
+.items {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0.75rem 0;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.item {
+  display: grid;
+  /* image | info | controls */
+  grid-template-columns: 72px 1fr auto;
+  gap: 0.875rem;
+  align-items: start;
+  padding: 0.875rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+/* Product image */
+.itemImage {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #EDE8E3;
+  flex-shrink: 0;
+}
+
+.itemImg {
+  object-fit: cover;
+}
+
+.itemImgPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: #E8E0D8;
+}
+
+/* Info */
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.itemCategory {
+  font-size: 0.65rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.itemName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+  /* Truncate long names */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemPrice {
+  font-family: var(--font-serif);
+  font-size: 0.975rem;
+  color: var(--ink);
+  margin-top: 0.2rem;
+}
+
+/* Controls */
+.itemControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.qtyRow {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.qtyBtn {
+  background: none;
+  border: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  font-size: 1rem;
+  color: var(--ink-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.qtyBtn:hover:not(:disabled) {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.qtyBtn:disabled {
+  color: var(--ink-3);
+  cursor: not-allowed;
+}
+
+.qty {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  min-width: 1.5rem;
+  text-align: center;
+  color: var(--ink);
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.removeBtn:hover {
+  color: var(--accent);
+}
+
+/* ---- footer ---- */
+.footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.subtotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.subtotalLabel {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+.subtotalValue {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  color: var(--ink);
+}
+
+.shippingNote {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  margin-top: -0.25rem;
+}
+
+.checkoutBtn {
+  width: 100%;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.checkoutBtn:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+.clearBtn {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  cursor: pointer;
+  text-align: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.clearBtn:hover {
+  color: var(--accent);
+}
+
+/* ---- mobile ---- */
+@media (max-width: 480px) {
+  .drawer {
+    width: 100vw;
+  }
+}

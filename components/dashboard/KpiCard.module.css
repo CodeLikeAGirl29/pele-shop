@@ -1,0 +1,35 @@
+/* components/dashboard/KpiCard.module.css */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.value {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 0.375rem;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.alert {
+  color: var(--warning);
+  font-weight: 500;
+}

@@ -1,0 +1,103 @@
+/* components/store/AddToCartButton.module.css */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ---- quantity ---- */
+.quantityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qtyLabel {
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.qtyControl {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.qtyBtn {
+  background: none;
+  border: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.125rem;
+  color: var(--ink-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.qtyBtn:hover:not(:disabled) {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.qtyBtn:disabled {
+  color: var(--ink-3);
+  cursor: not-allowed;
+}
+
+.qtyNum {
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-width: 2rem;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* ---- add button ---- */
+.addBtn {
+  width: 100%;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.addBtn:hover:not(:disabled) {
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+.addBtn:disabled {
+  background: var(--border);
+  color: var(--ink-3);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Green confirmation state */
+.addBtn.added {
+  background: #3D7A4F;
+}
+
+/* Button state when item is already in cart */
+.addBtn.inCart {
+  background: var(--accent-light);
+  color: var(--accent);
+  cursor: default;
+}
+
+.addBtn.inCart:hover {
+  background: var(--accent-light);
+  transform: none;
+}

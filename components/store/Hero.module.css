@@ -1,0 +1,170 @@
+/* components/store/Hero.module.css */
+
+.hero {
+  display: grid;
+  /* Two equal columns on desktop */
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: end;
+  padding: 3.5rem var(--page-px) 2.5rem;
+}
+
+/* ---- left: text ---- */
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.875rem;
+}
+
+.headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.125rem;
+}
+
+/* Italic + accent color for the word "last" */
+.headline em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.sub {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+  max-width: 22rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.cta:hover {
+  background: #a84f2e;
+  transform: translateY(-1px);
+}
+
+/* Stats strip below the CTA */
+.stats {
+  display: flex;
+  gap: 1.75rem;
+  padding-top: 1.375rem;
+  margin-top: 1.375rem;
+  border-top: 1px solid var(--border);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.statNum {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---- right: featured product card ---- */
+.featured {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* The image area — next/image needs a positioned parent */
+.imageWrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #EDE8E3;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #EDE8E3 0%, #DDD5CB 100%);
+}
+
+.badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-pill);
+}
+
+.cardInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1rem;
+  gap: 0.5rem;
+}
+
+.cardName {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.cardMeta {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.cardPrice {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* ---- mobile: stack vertically ---- */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 2.5rem 1.25rem 2rem;
+  }
+
+  /* Show featured card above text on mobile */
+  .featured {
+    order: -1;
+  }
+}

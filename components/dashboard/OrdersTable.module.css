@@ -1,0 +1,116 @@
+/* components/dashboard/OrdersTable.module.css */
+
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: #FAFAF8;
+}
+
+.table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-2);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Dim row while updating */
+.updating {
+  opacity: 0.5;
+}
+
+.orderId {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--ink-3) !important;
+}
+
+.customer {
+  color: var(--ink) !important;
+  font-weight: 500;
+}
+
+.items {
+  color: var(--ink-3) !important;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.total {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--ink) !important;
+  white-space: nowrap;
+}
+
+.date {
+  color: var(--ink-3) !important;
+  white-space: nowrap;
+}
+
+/* Status dropdown — styled to look like a badge */
+.statusSelect {
+  appearance: none;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: opacity 0.15s;
+}
+
+.statusSelect:disabled {
+  cursor: not-allowed;
+}
+
+.statusPending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.statusPaid {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.statusShipped {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.statusDelivered {
+  background: #F3F4F6;
+  color: #374151;
+}
+
+.statusCancelled {
+  background: #FEE2E2;
+  color: #991B1B;
+}

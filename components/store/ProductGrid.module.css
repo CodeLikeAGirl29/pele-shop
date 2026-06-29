@@ -1,0 +1,61 @@
+/* components/store/ProductGrid.module.css */
+
+.section {
+  padding: 0 var(--page-px) 4rem;
+}
+
+/* 3-column grid on desktop */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* ---- empty state ---- */
+.empty {
+  padding: 4rem var(--page-px);
+  text-align: center;
+}
+
+.emptyTitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.emptySub {
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+
+/* ---- error state ---- */
+.error {
+  padding: 2rem var(--page-px);
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.errorDetail {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  margin-top: 0.5rem;
+  font-family: monospace;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 0 1.25rem 3rem;
+  }
+}

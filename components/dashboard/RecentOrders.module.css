@@ -1,0 +1,91 @@
+/* components/dashboard/RecentOrders.module.css */
+
+.empty {
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0 0 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.table td {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-2);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.customer {
+  color: var(--ink) !important;
+  font-weight: 500;
+}
+
+.items {
+  color: var(--ink-3) !important;
+  max-width: 140px;
+}
+
+.total {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--ink) !important;
+}
+
+.date {
+  color: var(--ink-3) !important;
+  white-space: nowrap;
+}
+
+/* Status badges */
+.status {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+}
+
+.statusPending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.statusPaid {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.statusShipped {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.statusDelivered {
+  background: #F3F4F6;
+  color: #374151;
+}
+
+.statusCancelled {
+  background: #FEE2E2;
+  color: #991B1B;
+}

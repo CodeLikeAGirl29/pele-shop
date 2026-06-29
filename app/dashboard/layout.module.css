@@ -1,0 +1,27 @@
+/* app/dashboard/layout.module.css */
+
+.shell {
+  display: grid;
+  /* Sidebar is fixed-width, main takes the rest */
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+  background: #F7F6F4;
+}
+
+.main {
+  padding: 2.5rem;
+  /* Prevents content from going under the sidebar on scroll */
+  overflow: auto;
+  /* Soft max width so content doesn't stretch too wide on big screens */
+  max-width: 1100px;
+}
+
+@media (max-width: 768px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .main {
+    padding: 1.5rem;
+  }
+}
