@@ -104,7 +104,7 @@ export async function POST(request: Request) {
         product_id: item.product_id,
         quantity: item.quantity,
         unit_price: item.unit_price,
-      }))
+      })) as any
     );
 
     if (itemsError) {
