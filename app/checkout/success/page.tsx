@@ -19,7 +19,7 @@ import styles from "./page.module.css";
 export const metadata: Metadata = { title: "Order confirmed" };
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
+  apiVersion: "2026-06-24.dahlia",
 });
 
 interface PageProps {
