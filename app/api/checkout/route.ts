@@ -19,7 +19,7 @@ import type { CartItem } from "@/types/database";
 // This only runs on the server — the secret key is never
 // sent to the browser.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
+  apiVersion: "2026-06-24.dahlia",
 });
 
 export async function POST(request: Request) {
