@@ -81,7 +81,7 @@ export async function POST(request: Request) {
       stripe_session_id: session.id,
       status: "paid" as const,
       total: (session.amount_total ?? 0) / 100,
-      shipping_address: session.shipping ?? null,
+      shipping_address: null,
     };
     const { data: order, error: orderError } = await supabase
       .from("orders")
