@@ -21,7 +21,7 @@ import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
+  apiVersion: "2026-06-24.dahlia",
 });
 
 // Tell Next.js not to parse the body — we need the raw bytes
