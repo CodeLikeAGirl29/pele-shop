@@ -1,21 +1,3 @@
-// app/api/webhooks/stripe/route.ts
-//
-// POST /api/webhooks/stripe
-//
-// Stripe calls this endpoint after payment events happen.
-// We listen for 'checkout.session.completed' which fires
-// when a customer successfully pays.
-//
-// What we do when payment succeeds:
-//   1. Verify the webhook signature (proves it's really Stripe)
-//   2. Create an order row in Supabase
-//   3. Create order_item rows for each product purchased
-//   4. Decrement stock for each product
-//
-// We use the ADMIN client here (service role key) because:
-//   - There's no user session — this is a server-to-server call
-//   - We need to bypass RLS to write orders from Stripe's server
-
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -24,12 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-06-24.dahlia",
 });
 
-// Tell Next.js not to parse the body — we need the raw bytes
-// to verify Stripe's signature. If Next.js parses it first,
-// the signature check fails.
-export const config = {
-  api: { bodyParser: false },
-};
+export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -42,8 +19,6 @@ export async function POST(request: Request) {
   let event: Stripe.Event;
 
   try {
-    // constructEvent verifies the webhook came from Stripe
-    // and not from someone trying to fake a payment
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -54,16 +29,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  // Only handle the event we care about
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
-    // Pull the metadata we attached when creating the session
     const userId = session.metadata?.user_id || null;
     const rawItems = session.metadata?.items;
 
     if (!rawItems) {
-      console.error("No items in session metadata");
       return NextResponse.json({ error: "Missing items" }, { status: 400 });
     }
 
@@ -75,44 +47,73 @@ export async function POST(request: Request) {
 
     const supabase = createAdminClient();
 
-    // 1. Create the order
-    const orderInsert = {
-      user_id: userId || null,
-      stripe_session_id: session.id,
-      status: "paid" as const,
-      total: (session.amount_total ?? 0) / 100,
-      shipping_address: null,
-    };
-    const { data: order, error: orderError } = await supabase
-      .from("orders")
-      .insert(orderInsert as any)
-      .select()
-      .single();
+    // Use rpc to insert order and bypass type inference issues
+    const { data: orderId, error: orderError } = await supabase.rpc(
+      "create_order",
+      {
+        p_user_id: userId,
+        p_stripe_session_id: session.id,
+        p_total: (session.amount_total ?? 0) / 100,
+      }
+    );
 
-    if (orderError || !order) {
+    if (orderError || !orderId) {
       console.error("Failed to create order:", orderError);
-      return NextResponse.json(
-        { error: "Order creation failed" },
-        { status: 500 }
+      // Fall back to raw insert if rpc doesn't exist yet
+      const { data: order, error: insertError } = await supabase
+        .from("orders")
+        .insert([
+          {
+            user_id: userId,
+            stripe_session_id: session.id,
+            status: "paid",
+            total: (session.amount_total ?? 0) / 100,
+            shipping_address: null,
+          },
+        ] as any)
+        .select("id")
+        .single();
+
+      if (insertError || !order) {
+        console.error("Failed to create order (fallback):", insertError);
+        return NextResponse.json(
+          { error: "Order creation failed" },
+          { status: 500 }
+        );
+      }
+
+      // Insert order items
+      await supabase.from("order_items").insert(
+        items.map((item) => ({
+          order_id: (order as any).id,
+          product_id: item.product_id,
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+        })) as any
       );
+
+      // Decrement stock
+      for (const item of items) {
+        await supabase.rpc("decrement_stock", {
+          p_product_id: item.product_id,
+          p_quantity: item.quantity,
+        });
+      }
+
+      console.log(`Order ${(order as any).id} created`);
+      return NextResponse.json({ received: true });
     }
 
-    // 2. Create order items
-    const { error: itemsError } = await supabase.from("order_items").insert(
+    // Insert order items using orderId from rpc
+    await supabase.from("order_items").insert(
       items.map((item) => ({
-        order_id: order.id,
+        order_id: orderId,
         product_id: item.product_id,
         quantity: item.quantity,
         unit_price: item.unit_price,
       })) as any
     );
 
-    if (itemsError) {
-      console.error("Failed to create order items:", itemsError);
-    }
-
-    // 3. Decrement stock for each product
-    // We do these one at a time with rpc to safely decrement
     for (const item of items) {
       await supabase.rpc("decrement_stock", {
         p_product_id: item.product_id,
@@ -120,9 +121,8 @@ export async function POST(request: Request) {
       });
     }
 
-    console.log(`Order ${order.id} created for session ${session.id}`);
+    console.log(`Order ${orderId} created`);
   }
 
-  // Always return 200 — Stripe will retry if we return an error
   return NextResponse.json({ received: true });
 }
