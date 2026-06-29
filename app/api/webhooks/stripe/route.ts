@@ -76,16 +76,16 @@ export async function POST(request: Request) {
     const supabase = createAdminClient();
 
     // 1. Create the order
+    const orderInsert = {
+      user_id: userId || null,
+      stripe_session_id: session.id,
+      status: "paid" as const,
+      total: (session.amount_total ?? 0) / 100,
+      shipping_address: session.shipping_details ?? null,
+    };
     const { data: order, error: orderError } = await supabase
       .from("orders")
-      .insert({
-        user_id: userId || null,
-        stripe_session_id: session.id,
-        status: "paid",
-        // Stripe gives us the total in cents — convert back to dollars
-        total: (session.amount_total ?? 0) / 100,
-        shipping_address: session.shipping_details ?? null,
-      })
+      .insert(orderInsert)
       .select()
       .single();
 
