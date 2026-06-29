@@ -10,52 +10,50 @@
 // the parent page, which means filtering happens server-side
 // (Supabase does the filtering, not the browser).
 
-import { createClient } from "@/lib/supabase/server";
-import ProductCard from "./ProductCard";
-import styles from "./ProductGrid.module.css";
+import { createClient } from '@/lib/supabase/server'
+import ProductCard from './ProductCard'
+import styles from './ProductGrid.module.css'
 
 interface ProductGridProps {
-  category?: string;
-  sort?: string;
+  category?: string
+  sort?: string
 }
 
-export default async function ProductGrid({
-  category,
-  sort,
-}: ProductGridProps) {
-  const supabase = await createClient();
+export default async function ProductGrid({ category, sort }: ProductGridProps) {
+  const supabase = await createClient()
 
   // Start building the query
   let query = supabase
-    .from("products")
-    .select("*")
+    .from('products')
+    .select('*')
     // Only show active products (is_active = true)
-    .eq("is_active", true);
+    .eq('is_active', true)
 
   // Apply category filter if one is selected
   // We skip this when category is 'All' or undefined
-  if (category && category !== "All") {
-    query = query.eq("category", category);
+  if (category && category !== 'All') {
+    query = query.eq('category', category)
   }
 
   // Apply sort order
   switch (sort) {
-    case "price_asc":
-      query = query.order("price", { ascending: true });
-      break;
-    case "price_desc":
-      query = query.order("price", { ascending: false });
-      break;
-    case "newest":
-      query = query.order("created_at", { ascending: false });
-      break;
+    case 'price_asc':
+      query = query.order('price', { ascending: true })
+      break
+    case 'price_desc':
+      query = query.order('price', { ascending: false })
+      break
+    case 'newest':
+      query = query.order('created_at', { ascending: false })
+      break
     default:
       // 'featured' — just use created_at for now
       // In a real store you'd have a 'sort_order' column
-      query = query.order("created_at", { ascending: true });
+      query = query.order('created_at', { ascending: true })
   }
 
-  const { data: products, error } = await query;
+  const { data: productsRaw, error } = await query
+  const products = (productsRaw ?? []) as any[]
 
   // If the database query fails, show a helpful error state
   if (error) {
@@ -64,11 +62,11 @@ export default async function ProductGrid({
         <p>Couldn't load products. Please try again.</p>
         <p className={styles.errorDetail}>{error.message}</p>
       </div>
-    );
+    )
   }
 
   // Empty state when no products match the filter
-  if (!products || products.length === 0) {
+  if (!products || (products as any[]).length === 0) {
     return (
       <div className={styles.empty}>
         <p className={styles.emptyTitle}>No products found</p>
@@ -76,13 +74,13 @@ export default async function ProductGrid({
           Try a different category or clear your filters.
         </p>
       </div>
-    );
+    )
   }
 
   return (
     <section className={styles.section} id="products">
       <div className={styles.grid}>
-        {products.map((product, index) => (
+        {(products as any[]).map((product: any, index: number) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -92,5 +90,5 @@ export default async function ProductGrid({
         ))}
       </div>
     </section>
-  );
+  )
 }

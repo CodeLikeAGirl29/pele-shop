@@ -60,7 +60,7 @@ export default function OrdersTable({
     );
     setUpdating(orderId);
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("orders")
       .update({ status: newStatus })
       .eq("id", orderId);
